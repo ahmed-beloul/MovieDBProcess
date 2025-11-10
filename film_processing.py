@@ -3,6 +3,7 @@ from utils.moviedb_client import MovieDBClient
 from utils.post_simulation_client import PostSimulationClient
 from typing import List
 from datetime import datetime
+from tqdm import tqdm
 
 
 def main():
@@ -11,10 +12,10 @@ def main():
         base_url=Config.get_moviedb_base_url(),
         api_token=Config.get_moviedb_token(),
     )
-    movie_ids: List[int] = moviedb_client.get_list_of_movies_ids(count=1)
+    movie_ids: List[int] = moviedb_client.get_list_of_movies_ids(count=5)
     unique_ids: List[str] = []
 
-    for movie_id in movie_ids:
+    for movie_id in tqdm(movie_ids):
         process_movies(moviedb_client, movie_id, unique_ids)
 
     open("unique_ids.txt", "w").close()
